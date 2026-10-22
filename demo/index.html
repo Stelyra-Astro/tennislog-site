@@ -5907,7 +5907,7 @@ function toggleScore(){const f=root.getElementById('v21-quick-form');if(!f)retur
 function validSets(sets,rule){
  const max=rule==='Best of 5'?5:['One set','Match tiebreak'].includes(rule)?1:3;
  if(sets.length>max)return 'Too many sets for this format';
- if(sets.some(s=>![s.us,s.them].every(n=>Number.isInteger(n)&&n>=0&&n<=30)))return 'Set scores must be whole numbers';
+ if(sets.some(s=>![s.us,s.them].every(n=>Number.isSafeInteger(n)&&n>=0)))return 'Set scores must be whole numbers';
  if(sets.some(s=>s.us===s.them))return 'A completed set must have a winner';
  if(sets.some(s=>{
    const hi=Math.max(s.us,s.them),lo=Math.min(s.us,s.them);
@@ -6129,7 +6129,7 @@ quickHtml=function(){
  <details class="v22-more"><summary>People, format & gear changes</summary>
  ${v22Pick('format','Format',[['Singles','Singles'],['Doubles','Doubles'],['Group','Group practice']],seg?.format||'Singles')}
  ${v22Pick('opponentId','Opponent',v22Options(players),seg?.opponentIds?.[0]||last?.opponentIds?.[0]||'')}
- ${v22Pick('opponentId2','Second opponent',v22Options(players),'')}
+ ${v22Pick('opponentId2','Second opponent',v22Options(players),seg?.opponentIds?.[1]||last?.opponentIds?.[1]||'')}
   ${v22Pick('partnerId','Partner',v22Options(players,'No partner'),seg?.partnerIds?.[0]||last?.partnerIds?.[0]||'')}
  ${v22Pick('coachId','Coach',v22Options(coaches,'No coach selected'),seg?.coachIds?.[0]||last?.coachIds?.[0]||'')}
  ${v22Pick('ballId','Ball can 1', [['','No can recorded'],...balls.map(g=>[g.id,`${g.inventoryCode||g.name} · ${g.brand||''} · ${canStats(g.id).uses} uses`])],'')}
@@ -6161,7 +6161,7 @@ quickData=function(){
  const form=root.getElementById('v21-quick-form');if(!form)return null;const fd=new FormData(form);
  const kind=String(fd.get('kind')||'Practice'),date=String(fd.get('date')||''),name=String(fd.get('name')||'').trim(),startTime=String(fd.get('startTime')||''),endTime=String(fd.get('endTime')||'');
  const minutes=v22TimeMinutes(startTime,endTime);
- if(!date||!startTime||!endTime||minutes<1||minutes>600){toast('Enter a title, date and valid start/end times (1–600 minutes)');return null;}
+ if(!date||!startTime||!endTime||minutes<1||minutes>600){toast('Enter a date and valid start/end times (1–600 minutes)');return null;}
  const rules=String(fd.get('scoreRule')||'Best of 3'),max=rules==='Best of 5'?5:['One set','Match tiebreak'].includes(rules)?1:3,sets=[];
  if(kind==='Match')for(let i=1;i<=max;i++){const a=String(fd.get('us'+i)||'').trim(),b=String(fd.get('them'+i)||'').trim();if(!a&&!b)continue;if(a===''||b===''){toast(`Set ${i}: enter both scores or leave both blank`);return null;}if(!/^\d+$/.test(a)||!/^\d+$/.test(b)){toast('Set scores must be whole numbers');return null;}sets.push({id:uid(),us:Number(a),them:Number(b),games:[]});}
  const invalid=kind==='Match'?validSets(sets,rules):'';if(invalid){toast(invalid);return null;}
