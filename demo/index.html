@@ -6355,6 +6355,19 @@ render=function(reset=false){
  root.querySelectorAll('#tabbar [data-tab="play"]').forEach(el=>{el.setAttribute('aria-label','Sessions');el.querySelector('.tablabel').textContent='Sessions';});
  root.querySelectorAll('#tabbar [data-tab="library"]').forEach(el=>{el.setAttribute('aria-label','Library');el.querySelector('.tablabel').textContent='Library';});
  root.querySelectorAll('.v19-title-row h1').forEach(el=>{if(el.textContent==='Collections')el.textContent='Library';});
+ if(route.screen==='play'){
+  const appTitle=root.querySelector('#screen .appbar-title');if(appTitle)appTitle.textContent='Sessions';
+  root.querySelectorAll('#screen [data-v21="quick-open"],#screen [data-v20="quick"]').forEach(el=>el.remove());
+  root.querySelectorAll('#screen .appbar-actions [data-action="new"][data-type="sessions"]').forEach(el=>{el.removeAttribute('data-action');el.removeAttribute('data-type');el.dataset.c26='add';el.setAttribute('aria-label','Add or plan a session');});
+  const listTitle=root.querySelector('#screen .v14-play-header strong');if(listTitle)listTitle.textContent='Recorded sessions';
+  const listCount=root.querySelector('#screen .v14-play-header small');if(listCount)listCount.textContent=`${db.sessions.length} played`;
+  root.querySelector('#screen .v14-lower-action')?.remove();
+  const page=root.querySelector('#screen .page');
+  if(page){
+   const title=page.querySelector('h1');if(title&&title.textContent==='Play')title.textContent='Sessions';
+   if(!page.querySelector('.c26-sessions-add'))page.insertAdjacentHTML('afterbegin',`<section class="c26-card c26-sessions-add"><h2>Add or plan a session</h2><p>Log past play or set up your next time on court.</p><button class="c26-add" data-c26="add" aria-label="Add or plan a session">+</button></section>`);
+  }
+ }
 };
 const c24PreviousGo=go;
 go=function(screen,type='',id=''){if(['v10-watch','v10-sensor','health','icloud'].includes(screen)){toast('This integration is not included in the iPhone-first release.');return;}c24PreviousGo(screen,type,id);};
