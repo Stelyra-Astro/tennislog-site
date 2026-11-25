@@ -1,0 +1,10 @@
+.ct-rules .form-card{background:#202734;border-color:#394452}
+.ct-rules .form-title{color:#d7ff4c}
+.ct-rules .ct-row label{display:block;color:#d0d8df;font-size:12px;margin-bottom:5px}
+.ct-rules .ct-row select,.ct-rules .ct-row input{width:100%;background:#141b24;color:#f2f6f8;border:1px solid #4a5969;border-radius:10px;padding:11px;font-size:14px}
+.ct-rule-note{font-size:12px;color:#b9c4cf;line-height:1.5;margin:12px 3px 0}
+.ct-detail{background:#202734;border:1px solid #394452;border-radius:17px;padding:16px;margin:14px 0;color:#f2f6f8}
+.ct-detail h2{font-size:16px;margin:0 0 12px}
+.ct-detail>div{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #394452;padding:10px 0;font-size:12px}
+.ct-detail span{color:#b9c4cf}
+.ct-detail strong{text-align:right;font-weight:650}
